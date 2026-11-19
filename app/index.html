@@ -3,23 +3,110 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA VI trophy checklist</title>
+<title>Sunset Atlas — GTA VI Trophy Guide &amp; Tracker</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>GTA VI trophy checklist</h1>
-  <p id="progress">0 of 55 earned</p>
+<header class="sunset">
+  <div class="masthead">
+    <div>
+      <p class="eyebrow">Grand Theft Auto VI · PlayStation 5 · 55 trophies</p>
+      <h1>Sunset Atlas</h1>
+      <p class="tagline">The complete GTA VI trophy guide &amp; tracker — offline, spoiler-safe, every guide cited.</p>
+    </div>
+    <div class="progress-card" id="progress-card" aria-live="polite">
+      <p class="big-count"><strong id="earned-count">0 / 55</strong> <span>earned</span></p>
+      <div class="meter"><div class="meter-fill" id="meter-fill"></div></div>
+      <p class="grade-line" id="grade-line">Platinum 0% · Gold 0/2 · Silver 0/6 · Bronze 0/46</p>
+      <p class="missable-line" id="missable-line">1 trophy may be missable — do the Chapter 1 meditation before Chapter 1 ends.</p>
+    </div>
+  </div>
+  <nav class="tabs" aria-label="Guide sections">
+    <a href="#/" data-view="checklist" class="tab active">Checklist</a>
+    <a href="#/roadmap" data-view="roadmap" class="tab">Roadmap to Platinum</a>
+    <a href="#/missables" data-view="missables" class="tab">Missables <span class="pill-badge">1 to watch</span></a>
+    <a href="#/next" data-view="next" class="tab">Next Up</a>
+  </nav>
 </header>
-<div class="controls">
-  <label>Grade <select id="grade"><option value="all">All</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
-  <button id="export" type="button">Export progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
+
+<div class="filters" id="filters">
+  <label>Search <input id="search" type="search" placeholder="Trophy, mission, chapter…" autocomplete="off"></label>
+  <label>Grade
+    <select id="grade-filter">
+      <option value="all">All grades</option>
+      <option value="platinum">Platinum</option>
+      <option value="gold">Gold</option>
+      <option value="silver">Silver</option>
+      <option value="bronze">Bronze</option>
+    </select>
+  </label>
+  <label>Kind
+    <select id="kind-filter">
+      <option value="all">All kinds</option>
+      <option value="story">Story</option>
+      <option value="missable">Missable</option>
+      <option value="collectible">Collectibles</option>
+      <option value="activity">Activities</option>
+      <option value="challenge">Challenges</option>
+      <option value="exploration">Exploration</option>
+      <option value="combat">Combat &amp; crime</option>
+      <option value="economy">Money</option>
+    </select>
+  </label>
+  <label>Status
+    <select id="status-filter">
+      <option value="all">Earned + unearned</option>
+      <option value="unearned">Unearned only</option>
+      <option value="earned">Earned only</option>
+    </select>
+  </label>
+  <label class="check"><input id="missable-only" type="checkbox"> Missable only</label>
+  <label class="check"><input id="hide-earned" type="checkbox"> Hide earned</label>
+  <label class="check spoiler-check"><input id="spoiler-safe" type="checkbox"> Spoiler-safe <span class="hint">hides un-earned story trophies</span></label>
+  <button id="export-btn" type="button">Export progress</button>
+  <label class="import-btn">Import progress <input id="import-file" type="file" accept="application/json"></label>
 </div>
-<table>
-  <thead><tr><th>Earned</th><th>Trophy</th><th>Grade</th><th>How to get it</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
+
+<main>
+  <section id="view-checklist" class="view">
+    <div class="split">
+      <div class="list-col">
+        <h2>All 55 trophies</h2>
+        <p class="list-note" id="list-note">Tick a trophy when you earn it — progress saves in this browser. Click any row to open its full guide.</p>
+        <p class="list-meta" id="list-meta"></p>
+        <ul class="trophy-list" id="trophy-list"></ul>
+      </div>
+      <aside class="guide-pane" id="guide-pane" aria-live="polite">
+        <p class="pane-empty">Pick a trophy on the left to see its guide, sources and your note.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="view-roadmap" class="view" hidden>
+    <h2>Roadmap to the Platinum</h2>
+    <p class="section-intro">About 200 hours at difficulty 4/10 (PowerPyx), one playthrough, no mission replay, free roam after the story. Play the five chapters, take optional missions as they appear, scan vehicles and study the world on the way — then work the 100% checklist.</p>
+    <div id="roadmap-stages"></div>
+  </section>
+
+  <section id="view-missables" class="view" hidden>
+    <h2>Missable trophies</h2>
+    <p class="section-intro">Only one trophy on the whole list may be missable. Everything else — story trophies included — can be earned after the credits in free roam.</p>
+    <div id="missables-list"></div>
+    <p class="save-tip"><strong>Save habit:</strong> keep a manual save at the start of every chapter and one before the final mission. There is no mission replay and no New Game Plus.</p>
+  </section>
+
+  <section id="view-next" class="view" hidden>
+    <h2>Next Up</h2>
+    <p class="section-intro">Your next trophies in roadmap order — the possibly missable one first, then the story in chapter order, then cleanup and grinds.</p>
+    <ol class="next-list" id="next-list"></ol>
+  </section>
+</main>
+
+<footer>
+  <p><strong>Sources:</strong> the official trophy names, descriptions and grades come from Exophase and PSNProfiles; PSN's progress counts (250 stunts, 42 range golds, 18 meditation spots…) are PSNProfiles'; unlock steps are drawn from GTA Zone's trophy guide (PowerPyx / GTABase). Every guide is written in our own words — a source is cited, never copied. Five trophies say so in their guides where no source has pinned the trigger down yet.</p>
+  <p><strong>Offline:</strong> this guide runs entirely from its own files. It fetches nothing; the source links open only if you click them. No Rockstar artwork is used.</p>
+</footer>
+
 <script type="module" src="app.js"></script>
 </body>
 </html>
